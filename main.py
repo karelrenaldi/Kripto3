@@ -39,9 +39,19 @@ def lsb_method_encode(image, message, isRandom = False, seed = 10):
     else:
         random.seed(seed)
         random_position = random.sample(range(0, max_bytes), bin_message_len)
+
+        x = []
+        for values in image:
+            for pixel in values:
+                r, g, b = messageToBinary(pixel)
+                x.append(r)
+                x.append(g)
+                x.append(b)
+
         print(len(image))
         print(len(image[0]))
         print(random_position)
+        print(x)
         # print(random.randint(0, max_bytes))
         # print(random.randint(0, max_bytes))
     
