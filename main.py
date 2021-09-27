@@ -38,34 +38,45 @@ def lsb_method_encode(image, message, isRandom = False, seed = 10):
                     break
     else:
         random.seed(seed)
-        random_position = random.sample(range(0, max_bytes), bin_message_len)
+        random_position = random.sample(range(1, max_bytes), bin_message_len)
+        
+        bin_message_idx = 0
+        for pos in random_position:
+            i = pos // 512
+            j = (pos - i*512) // 3
+            k = (pos - i*512) - 3*j
 
-        x = []
+            image_byte_bin = messageToBinary(image[i][j][k])
+            image[i][j][k] = int(image_byte_bin[:-1] + bin_message[bin_message_idx], 2)
+            bin_message_idx += 1
+
+
+        cv2.imwrite('lena-stego-3.png', image)
+    
+
+
+def lsb_method_decode(image, isRandom = False):
+    bin_data = ""
+    
+    if(not(isRandom)):
         for values in image:
             for pixel in values:
                 r, g, b = messageToBinary(pixel)
-                x.append(r)
-                x.append(g)
-                x.append(b)
+                bin_data += r[-1]
+                bin_data += g[-1]
+                bin_data += b[-1]
+    else:
+        max_bytes = image.shape[0] * image.shape[1] * 3 // 8
+        seed = 10 # ambil dari depan
 
-        print(len(image))
-        print(len(image[0]))
-        print(random_position)
-        print(x)
-        # print(random.randint(0, max_bytes))
-        # print(random.randint(0, max_bytes))
-    
-    # cv2.imwrite('lena-stego.png', image)
+        random.seed(seed)
+        random_position = random.sample(range(1, max_bytes), max_bytes - 1)
 
-
-def lsb_method_decode(image):
-    bin_data = ""
-    for values in image:
-        for pixel in values:
-            r, g, b = messageToBinary(pixel)
-            bin_data += r[-1]
-            bin_data += g[-1]
-            bin_data += b[-1]
+        for pos in random_position:
+            i = pos // 512
+            j = (pos - i*512) // 3
+            k = (pos - i*512) - 3*j
+            bin_data += messageToBinary(image[i][j][k])[-1]
     
     all_bytes = [bin_data[i:i+8] for i in range(0, len(bin_data), 8)]
 
@@ -77,11 +88,13 @@ def lsb_method_decode(image):
             break
 
 
-def main():
-    image = cv2.imread('lena-stego.png')
-    lsb_method_encode(image, "karel", isRandom = True)
 
-    # lsb_method_decode(image)
+def main():
+    image = cv2.imread('lena-stego-3.png')
+    # lsb_method_encode(image, "karel", isRandom = True)
+    # lsb_method_decode_random(image)
+
+    lsb_method_decode(image, True)
     # print(image.shape[0], image.shape[1])
     # max_bytes = image.shape[0] * image.shape[1] // 8
     # print(max_bytes)
