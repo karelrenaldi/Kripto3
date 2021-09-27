@@ -1,5 +1,6 @@
 import os
 import random
+import math
 
 def bytes_to_arrint(_bytes):
 	return [x for x in _bytes]
@@ -12,6 +13,20 @@ def get_audio_payload_size(audio_bytes):
 	# ukuran file dalam bit
 	return max(0, (len(audio_bytes) - 44 - 6) // 8) # 1 byte untuk seed, 5 byte untuk eof
 
+def get_audio_psnr(audio_bytes_1, audio_bytes_2):
+	# mengembalikan peak-signal-to-noise antara dua file audio (bytes atau array of int)
+	# dua file audio harus berukuran sama
+	if type(audio_bytes_1) == bytes:
+		audio_bytes_1 = bytes_to_arrint(audio_bytes_1)
+	if type(audio_bytes_2) == bytes:
+		audio_bytes_2 = bytes_to_arrint(audio_bytes_2)
+	diff_sum = 0
+	for i in range(44, len(audio_bytes_1)):
+		diff_sum += abs(audio_bytes_1[i] - audio_bytes_2[i])
+	rms = (diff_sum / (len(audio_bytes_1) - 44)) ** 0.5
+	psnr = 20 * math.log(255/rms)
+	return psnr
+
 def audio_embed(audio_bytes, message, seed = 0):
 	# mengembalikan audio (bytes) hasil penyisipan pesan
 	# KAMUS
@@ -19,8 +34,7 @@ def audio_embed(audio_bytes, message, seed = 0):
 	# message: bytes OR array of int [0..256]
 
 	# usage example:
-	# audio_steganography = AudioSteganography()
-	# result = audio_steganography.embed(audio_bytes, message_bytes)
+	# result = embed(audio_bytes, message_bytes)
 	# with ("result.wav", "wb") as file:
 	# 	file.write(bytes(result))
 
@@ -98,17 +112,24 @@ def audio_extract(audio_bytes):
 			i += 1
 	return ret[:-5]
 
-tes = []
-with open("./audio.wav", "rb") as file:
-	tes = [x for x in file.read()]
-result = audio_embed(tes, [10, 20, 69], 69)
+# tes = []
+# with open("./audio.wav", "rb") as file:
+# 	tes = [x for x in file.read()]
+# result = audio_embed(tes, [10, 20, 69], 69)
 
-with open("./result.wav", "wb") as file:
-	file.write(bytes(result))
+# with open("./result.wav", "wb") as file:
+# 	file.write(bytes(result))
 
-tes = []
-with open("./result.wav", "rb") as file:
-	tes = [x for x in file.read()]
-result = audio_extract(tes)
+# tes = []
+# with open("./result.wav", "rb") as file:
+# 	tes = [x for x in file.read()]
+# result = audio_extract(tes)
 
-print(result)
+# a1 = []
+# with open("./audio.wav", "rb") as file:
+# 	a1 = [x for x in file.read()]
+# a2 = []
+# with open("./result.wav", "rb") as file:
+# 	a2 = [x for x in file.read()]
+# print(get_audio_psnr(a1, a2))
+# # print(get_audio_psnr(a1, a1))
