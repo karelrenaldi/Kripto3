@@ -9,13 +9,17 @@ def arrint_to_bytes(arr_int):
 	return bytes(arr_int)
 
 def get_audio_payload_size(audio_bytes):
-	# mengembalikan ukuran pesan maksimum yang dapat di-embed file audio
-	# ukuran file dalam bit
+	'''
+	Mengembalikan ukuran pesan maksimum yang dapat di-embed file audio.
+	Ukuran file dalam bit.
+	'''
 	return max(0, (len(audio_bytes) - 44 - 6) // 8) # 1 byte untuk seed, 5 byte untuk eof
 
 def get_audio_psnr(audio_bytes_1, audio_bytes_2):
-	# mengembalikan peak-signal-to-noise antara dua file audio (bytes atau array of int)
-	# dua file audio harus berukuran sama
+	'''
+	Mengembalikan peak-signal-to-noise antara dua file audio (bytes atau array of int).
+	Dua file audio harus berukuran sama.
+	'''
 	if type(audio_bytes_1) == bytes:
 		audio_bytes_1 = bytes_to_arrint(audio_bytes_1)
 	if type(audio_bytes_2) == bytes:
@@ -28,16 +32,17 @@ def get_audio_psnr(audio_bytes_1, audio_bytes_2):
 	return psnr
 
 def audio_embed(audio_bytes, message, seed = 0):
-	# mengembalikan audio (bytes) hasil penyisipan pesan
-	# KAMUS
-	# audio_bytes: bytes OR array of int [0..256]
-	# message: bytes OR array of int [0..256]
+	'''
+	mengembalikan audio (bytes) hasil penyisipan pesan
+	KAMUS
+	audio_bytes: bytes OR array of int [0..256]
+	message: bytes OR array of int [0..256]
 
-	# usage example:
-	# result = embed(audio_bytes, message_bytes)
-	# with ("result.wav", "wb") as file:
-	# 	file.write(bytes(result))
-
+	usage example:
+	result = embed(audio_bytes, message_bytes)
+	with ("result.wav", "wb") as file:
+		file.write(bytes(result))
+	'''
 	# convert params to array of int
 	if type(audio_bytes) == bytes:
 		audio_bytes = self.bytes_to_arrint(audio_bytes)
@@ -78,8 +83,9 @@ def audio_embed(audio_bytes, message, seed = 0):
 	return arrint_to_bytes(audio_bytes)
 
 def audio_extract(audio_bytes):
-	# mengembalikan pesan (bytes) yang disisipkan dalam audio
-
+	'''
+	mengembalikan pesan (bytes) yang disisipkan dalam audio
+	'''
 	# convert param to array of int
 	if type(audio_bytes) == bytes:
 		audio_bytes = bytes_to_arrint(audio_bytes)
