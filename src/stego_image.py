@@ -101,7 +101,6 @@ def lsb_extract(image: np.ndarray) -> str:
         curr_char = chr(int(byte, 2))
         secret_message += curr_char
         if secret_message.endswith(EOF):
-            print('Finish extract message')
             break
         
     return secret_message[:-len(EOF)]
@@ -136,4 +135,3 @@ if __name__ == "__main__":
     image1 = cv2.imread('../test/poke.png')
     image2 = cv2.imread('../test/poke_stego.png')
     psnr = get_image_psnr(image1, image2)
-    print(psnr)
