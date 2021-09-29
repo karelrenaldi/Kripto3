@@ -67,27 +67,27 @@ def run(encipher, text, key, filetype):
     result = decrypt(text, key, filetype)
     return (result)
 
-text = ""
-ext = ""
-filename = input()
-filetype = "." + (filename.split(".")[1])
-if(ext == ".txt"):
-    with open(filename, "r", encoding='utf-8') as current_file:
-        text = current_file.read()
-        current_file.close()
-else:
-    current_file = open(filename, "rb")
-    text = [x for x in current_file.read()]
-    current_file.close()
+# text = ""
+# ext = ""
+# filename = input()
+# filetype = "." + (filename.split(".")[1])
+# if(ext == ".txt"):
+#     with open(filename, "r", encoding='utf-8') as current_file:
+#         text = current_file.read()
+#         current_file.close()
+# else:
+#     current_file = open(filename, "rb")
+#     text = [x for x in current_file.read()]
+#     current_file.close()
 
-result = run(False,text,key,filetype)
-print(result)
-result = bytes(result)
-filename = "4"
-path = filename + filetype
-if (filetype == ".txt"):
-    file = open("../hasil/"+path, 'w')
-else:
-    file = open("../hasil/"+path, 'wb')
-file.write(result)
-file.close()
+# result = run(False,text,key,filetype)
+# print(result)
+# result = bytes(result)
+# filename = "4"
+# path = filename + filetype
+# if (filetype == ".txt"):
+#     file = open("../hasil/"+path, 'w')
+# else:
+#     file = open("../hasil/"+path, 'wb')
+# file.write(result)
+# file.close()
