@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-
 '''
 Theme
 '''
@@ -37,28 +36,32 @@ window_audio_steganography_embed = [
 	[sg.Text("Embed Message", size=TEXTBOX_SIZE, justification="center")],
 	[
 		sg.Text("Message:"),
-		sg.Radio("Textbox", "message_option", default=True),
-		sg.Radio("File as text", "message_option"),
-		sg.Radio("File as binary", "message_option")
+		sg.Radio("Read from textbox", "embed_audio_message_option", default=True),
+		sg.Radio("Open file as text", "embed_audio_message_option"),
+		sg.Radio("Open file as binary", "embed_audio_message_option")
 	],
 	[
-		sg.Multiline(key="message", size=MULTILINE_SIZE)
-	],
-	[sg.FileBrowse(target="message_filename", button_text="Open message file")],
-	[sg.InputText(key="message_filename", size=INPUTTEXT_SIZE)],
-	[
+		sg.Multiline(key="embed_audio_message", size=MULTILINE_SIZE),
 		sg.Column([
-			[sg.Text("Cover file:"), sg.FileBrowse(target="embed_cover_audio_filename", button_text="Open")],
-			[sg.Text("Stego key (positive integer):")],
-			[sg.Text("RC4 key (positive integer):")]
-		]),
-		sg.Column([
-			[sg.InputText(key="embed_cover_audio_filename", size=INPUTTEXT_SIZE)],
-			[sg.InputText(key="stego_key", size=INPUTTEXT_SIZE)],
-			[sg.InputText(key="embed_rc4_key", size=INPUTTEXT_SIZE)]
+			[sg.FileBrowse(target="embed_audio_message_filename", button_text="Open message file")],
+			[sg.InputText(key="embed_audio_message_filename", size=INPUTTEXT_SIZE)]
 		])
 	],
-	[sg.Button("Embed", size=BTN_SIZE_1)],
+	[
+		sg.Column([
+			[sg.Text("Cover file:"), sg.FileBrowse(target="embed_audio_cover_filename", button_text="Open")],
+			[sg.Text("Stego key (positive integer):")],
+			[sg.Text("RC4 key (positive integer):")],
+			[sg.Text("Save file as:"), sg.FileSaveAs(target="embed_audio_result_filename", button_text="Save As")]
+		]),
+		sg.Column([
+			[sg.InputText(key="embed_audio_cover_filename", size=INPUTTEXT_SIZE)],
+			[sg.InputText(key="embed_audio_stego_key", size=INPUTTEXT_SIZE)],
+			[sg.InputText(key="embed_audio_rc4_key", size=INPUTTEXT_SIZE)],
+			[sg.InputText(key="embed_audio_result_filename", size=INPUTTEXT_SIZE)]
+		])
+	],
+	[sg.Button("Embed Message in Audio File", size=BTN_SIZE_1)],
 	[sg.Button("Back to Main Menu", size=BTN_SIZE_1)]
 ]
 
@@ -66,15 +69,28 @@ window_audio_steganography_extract = [
 	[sg.Text("Extract Message", size=TEXTBOX_SIZE, justification="center")],
 	[
 		sg.Column([
-			[sg.Text("Cover file:"), sg.FileBrowse(target="extract_cover_audio_filename", button_text="Open")],
-			[sg.Text("RC4 key (positive integer):")]
+			[sg.Text("Cover file:"), sg.FileBrowse(target="extract_audio_cover_filename", button_text="Open")],
+			[sg.Text("RC4 key (positive integer):")],
 		]),
 		sg.Column([
-			[sg.InputText(key="extract_cover_audio_filename", size=INPUTTEXT_SIZE)],
-			[sg.InputText(key="extract_rc4_key", size=INPUTTEXT_SIZE)]
+			[sg.InputText(key="extract_audio_cover_filename", size=INPUTTEXT_SIZE)],
+			[sg.InputText(key="extract_audio_rc4_key", size=INPUTTEXT_SIZE)]
 		])
 	],
-	[sg.Button("Extract", size=BTN_SIZE_1)],
+	[
+		sg.Text("Message option:"),
+		sg.Radio("Write to textbox", "extract_audio_message_option", default=True),
+		sg.Radio("Save message as text", "extract_audio_message_option"),
+		sg.Radio("Save message as binary", "extract_audio_message_option")
+	],
+	[
+		sg.Multiline(key="extract_audio_message", size=MULTILINE_SIZE),
+		sg.Column([
+			[sg.FileBrowse(target="extract_audio_message_filename", button_text="Open message file")],
+			[sg.InputText(key="extract_audio_message_filename", size=INPUTTEXT_SIZE)]
+		])
+	],
+	[sg.Button("Extract Message from Audio File", size=BTN_SIZE_1)],
 	[sg.Button("Back to Main Menu", size=BTN_SIZE_1)]
 ]
 
@@ -113,6 +129,9 @@ def run_gui():
 			window["window_audio_steganography_embed"].update(visible=False)
 			window["window_audio_steganography_extract"].update(visible=False)
 			window["window_main_menu"].update(visible=True)
+
+		# if "Embed Message in Audio File" in cur_events:
+		# 	handle_embed_event(cur_values)
 
 		if cur_events == sg.WIN_CLOSED or 'Quit' in cur_events:
 			break
