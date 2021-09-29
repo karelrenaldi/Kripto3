@@ -197,7 +197,7 @@ def handle_extract_event(window, values):
 		else:
 			# save message as binary
 			message = bytes(message)
-			with open(values["extract_message_filename"], "rb") as file:
+			with open(values["extract_message_filename"], "wb") as file:
 				file.write(message)
 			sg.popup("File saved succesfully")
 
@@ -233,7 +233,6 @@ def run_gui():
 
 		if "Extract Message from Cover File" in cur_events:
 			# print(cur_values)
-			print("yey")
 			handle_extract_event(window, cur_values)
 
 		if cur_events == sg.WIN_CLOSED or 'Quit' in cur_events:
