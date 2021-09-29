@@ -18,7 +18,7 @@ def KSA(key):
     for i in range(256):
         j = (j+Seq[i]+key[i%len(key)])%256
         Seq[i], Seq[j] = Seq[j], Seq[i] 
-    return S
+    return Seq
 
 def PRGA(Seq):
     i = 0
