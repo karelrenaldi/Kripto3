@@ -7,7 +7,7 @@
 * [Fitur](#fitur)
 
 ## Dependency
-* [python 3]
+* python 3
 * [pysimplegui](https://pysimplegui.readthedocs.io/en/latest/#install)
 * [opencv](https://pypi.org/project/opencv-python/)
 
