@@ -2,7 +2,7 @@
 > Tugas 3 IF4020 Kriptografi Semester Ganjil 2021
 
 ## Daftar Isi
-* [Dependencies](#dependencies)
+* [Dependency](#dependency)
 * [Cara Menggunakan](#caramenggunakan)
 * [Fitur](#fitur)
 
