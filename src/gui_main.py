@@ -323,10 +323,6 @@ def handle_extract_event(window, values):
 				message = rc4.run(False, message, rc4_key, '.bin')
 				
 			message = bytes(message)
-<<<<<<< HEAD
-=======
-
->>>>>>> 245a148926d068e59e141e758bd5cd1548ca758f
 			with open(values["extract_message_filename"], "wb") as file:
 				file.write(message)
 
@@ -370,10 +366,7 @@ def run_gui():
 			handle_embed_event(cur_values)
 
 		if "Extract Message from Cover File" in cur_events:
-<<<<<<< HEAD
 			# print(cur_values)
-=======
->>>>>>> 245a148926d068e59e141e758bd5cd1548ca758f
 			handle_extract_event(window, cur_values)
 
 		if cur_events == sg.WIN_CLOSED or 'Quit' in cur_events:
