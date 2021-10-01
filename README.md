@@ -3,7 +3,7 @@
 
 ## Daftar Isi
 * [Dependency](#dependency)
-* [Cara Menggunakan](#cara menggunakan)
+* [Cara Menggunakan](#cara-menggunakan)
 * [Fitur](#fitur)
 
 ## Dependency
