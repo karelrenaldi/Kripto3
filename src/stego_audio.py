@@ -37,11 +37,6 @@ def audio_embed(audio_bytes, message, seed = 0):
 	KAMUS
 	audio_bytes: bytes OR array of int [0..256]
 	message: bytes OR array of int [0..256]
-
-	usage example:
-	result = embed(audio_bytes, message_bytes)
-	with ("result.wav", "wb") as file:
-		file.write(bytes(result))
 	'''
 	# convert params to array of int
 	if type(audio_bytes) == bytes:
